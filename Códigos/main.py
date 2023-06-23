@@ -52,6 +52,22 @@ def obtener_parámetros(ip,matriz,memoria,parámetros):
 
     return ip
 
+def op_FF(memoria,xp,ip):
+    # Si no existe, se crea el archivo
+    archivo = open("archivo.txt", "w+")
+
+    archivo.write("------------------------REGISTROS-------------------\n")
+    archivo.write("xp, " + str(xp) + "\n")
+    archivo.write("ip, " + str(ip) + "\n")
+
+    archivo.write("------------------------MEMORIA---------------------\n")
+    archivo.write("DIR, CONT"+"\n")
+
+    for i in range(65535):
+        archivo.write(str(hex(i))+","+str(memoria[i])+"\n")
+
+    archivo.close()
+
 def op_A0(parámetros, memoria):
     dirección = str(parámetros[1]) + str(parámetros[2])
     dirección = int(dirección, 16)
@@ -132,7 +148,7 @@ while parámetros[0] != "FF":
         op_A3(parámetros, memoria)           
 
 print("finalizó ejecución")
-#op_FF() #Generamos los archivos
+op_FF(memoria,xp,ip) #Generamos los archivos
 
 print("debería ser 33:",memoria[int("FFFE",16)])
 print("debería ser 16:",memoria[int("CC00", 16)])
