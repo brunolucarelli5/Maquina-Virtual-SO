@@ -5,3 +5,4 @@ def op_A2(parametro):
     dirección_destino = int(dirección_destino,16)
     if dirección_origen <= 65534 and dirección_destino >= 1025:
         memoria[direcció_destino] = memoria[dirección_origen]
+#
