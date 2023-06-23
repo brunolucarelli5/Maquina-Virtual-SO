@@ -1,6 +1,7 @@
 #Cosas que ya están en main
 xp = str()  #Registro de propósito general, de 16 bits hexadecimales (ejemplo 00FFh)
 ip = str()  #Registro que apunta a la siguiente dirección, de 16 bits hexadecimales (ejemplo 77AAh)
+instrucción_puntero = 100 #Nos permitirá trabajar con ip
 
 #Memoria de 16 bits, que almacena elementos de 8 bits hexadecimales (ejemplo FAh)
 #NOTA: De 0 a 99 el espacio es reservado, de 100 a 1024 los usa la función cargar y de 1025 en adelante es de libre uso para programar
@@ -24,6 +25,22 @@ matriz[3][0] = "A2"
 matriz[3][1] = "2"
 matriz[4][0] = "A3"
 matriz[4][1] = "4"
+
+#Cargamos memoria con un programa de ejemplo
+instrucción_puntero = 
+memoria[100] = "A0" #op_A0(parámetros)
+memoria[101] = "00"
+memoria[102] = "FF"
+memoria[103] = "16"
+
+memoria[104] = "A3" #op_A4(parámetros)
+memoria[105] = "00"
+memoria[106] = "77"
+memoria[108] = "FF"
+memoria[109] = "FF"
+
+memoria[110] = "FF" #op_FF()
+
 
 def obtener_parámetros(instrucción_puntero,matriz):
     
