@@ -10,12 +10,11 @@ según los refinamientos planteados en https://docs.google.com/document/d/1d9OCo
 """
 xp = str()  #Registro de propósito general, de 16 bits hexadecimales (ejemplo 00FFh)
 ip = str()  #Registro que apunta a la siguiente dirección, de 16 bits hexadecimales (ejemplo 77AAh)
-instrucción_puntero = 100 #Nos permitirá trabajar con ip
 
 #Memoria de 16 bits, que almacena elementos de 8 bits hexadecimales (ejemplo FAh)
 #NOTA: De 0 a 99 el espacio es reservado, de 100 a 1024 los usa la función cargar y de 1025 en adelante es de libre uso para programar
-memoria = ["00"] * 65534 
-parámetros = ["00"] * 10 #Vector utilizado para extraer parámetros de 8 bits hexadecimales de las operaciones (ejemplo B5h)
+memoria = [hex(0x0)] * 65534 
+parámetros = [""] * 10 #Vector utilizado para extraer parámetros de 8 bits hexadecimales de las operaciones (ejemplo B5h)
 
 #Definimos una matriz que contenga las operaciones
 filas = 5

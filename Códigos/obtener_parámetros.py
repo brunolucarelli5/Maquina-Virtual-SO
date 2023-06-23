@@ -1,12 +1,33 @@
+def obtener_parámetros(ip,matriz,memoria,parámetros):
+    #Inicialización de variables
+    ip_decimal = int(ip,16)
+
+    for i in range(filas):
+        if memoria[ip_decimal] == matriz[i][0]:
+            sigs_params = int(matriz[i][1])
+            parámetros[0] = matriz[i][0]    #colocamos la operación en el primer elemento del vector
+
+            for i in range(1,sigs_params+1):
+                ip_decimal = ip_decimal + 1
+                parámetros[i] = memoria[ip_decimal]
+ 
+    #El puntero ip quedó en la posición del último parámetro. Le sumamos 1 para que quede posicionado en la siguiente instrucción.
+    ip_decimal = ip_decimal + 1
+    ip = hex(ip_decimal) 
+
+    return ip
+
+
+
+
 #Cosas que ya están en main
 xp = str()  #Registro de propósito general, de 16 bits hexadecimales (ejemplo 00FFh)
-ip = str()  #Registro que apunta a la siguiente dirección, de 16 bits hexadecimales (ejemplo 77AAh)
-instrucción_puntero = 100 #Nos permitirá trabajar con ip
+ip = hex(0x64)  #Registro que apunta a la siguiente dirección, de 16 bits hexadecimales (ejemplo 77AAh)
 
 #Memoria de 16 bits, que almacena elementos de 8 bits hexadecimales (ejemplo FAh)
 #NOTA: De 0 a 99 el espacio es reservado, de 100 a 1024 los usa la función cargar y de 1025 en adelante es de libre uso para programar
-memoria = ["00"] * 65534 
-parámetros = ["00"] * 10 #Vector utilizado para extraer parámetros de 8 bits hexadecimales de las operaciones (ejemplo B5h)
+memoria = [hex(0x0)] * 65534 
+parámetros = [""] * 10 #Vector utilizado para extraer parámetros de 8 bits hexadecimales de las operaciones (ejemplo B5h)
 
 #Definimos una matriz que contenga las operaciones
 filas = 5
@@ -27,20 +48,33 @@ matriz[4][0] = "A3"
 matriz[4][1] = "4"
 
 #Cargamos memoria con un programa de ejemplo
-instrucción_puntero = 
-memoria[100] = "A0" #op_A0(parámetros)
+memoria[100] = "A3" #op_A3(parámetros)
 memoria[101] = "00"
-memoria[102] = "FF"
-memoria[103] = "16"
+memoria[102] = "77"
+memoria[103] = "FF"
+memoria[104] = "FF" 
 
-memoria[104] = "A3" #op_A4(parámetros)
-memoria[105] = "00"
-memoria[106] = "77"
-memoria[108] = "FF"
-memoria[109] = "FF"
+memoria[105] = "A0" #op_A0(parámetros)
+memoria[106] = "00"
+memoria[107] = "FF"
+memoria[108] = "16"
 
-memoria[110] = "FF" #op_FF()
+memoria[109] = "FF" #op_FF()
 
+print("INICIO")
+print(parámetros)
 
-def obtener_parámetros(instrucción_puntero,matriz):
-    
+print("PRIMERA")
+print(ip)
+ip = obtener_parámetros(ip,matriz,memoria,parámetros)
+print(parámetros)
+
+print("SEGUNDA")
+print(ip)
+ip = obtener_parámetros(ip,matriz,memoria,parámetros)
+print(parámetros)
+
+print("TERCERA")
+print(ip)
+ip = obtener_parámetros(ip,matriz,memoria,parámetros)
+print(parámetros)
