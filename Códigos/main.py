@@ -75,7 +75,9 @@ def op_A3(parámetros, memoria):
     dirección_origen = int(dirección_origen,16)
     dirección_destino = str(parámetros[3]) + str(parámetros[4])
     dirección_destino = int(dirección_destino,16)
+    print(dirección_origen,dirección_destino)
     if (dirección_origen <= 65534 and dirección_origen >= 1025) and (dirección_destino <= 65534 and dirección_destino >= 1025):
+        print("entró")
         memoria[dirección_destino] = memoria[dirección_origen]
 
 """
@@ -117,7 +119,7 @@ archivo = open("ENTRADA.txt","r")
 memoria = cargar(archivo.read(),memoria)
 
 #COSA DE PRUEBA - BORRAR DESPUÉS
-memoria[int("0077",16)] = "33"
+memoria[int("DD77",16)] = "33"
 
 #Cargamos el vector parámetros 
 #while parámetros[0] != "FF":
@@ -139,4 +141,4 @@ print("finalizó ejecución")
 #op_FF() #Generamos los archivos
 
 print("debería ser 33:",memoria[int("FFFE",16)])
-print("debería ser 16:",memoria[int("00FF", 16)])
+#print("debería ser 16:",memoria[int("ABFF", 16)])
