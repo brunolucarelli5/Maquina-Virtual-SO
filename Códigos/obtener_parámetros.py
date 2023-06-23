@@ -19,7 +19,6 @@ def obtener_parámetros(ip,matriz,memoria,parámetros):
 
 
 
-
 #Cosas que ya están en main
 xp = str()  #Registro de propósito general, de 16 bits hexadecimales (ejemplo 00FFh)
 ip = hex(0x64)  #Registro que apunta a la siguiente dirección, de 16 bits hexadecimales (ejemplo 77AAh)
