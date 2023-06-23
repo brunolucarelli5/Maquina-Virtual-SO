@@ -10,6 +10,7 @@ según los refinamientos planteados en https://docs.google.com/document/d/1d9OCo
 """
 xp = str()  #Registro de propósito general, de 16 bits hexadecimales (ejemplo 00FFh)
 ip = str()  #Registro que apunta a la siguiente dirección, de 16 bits hexadecimales (ejemplo 77AAh)
+instrucción_puntero = str() #Nos permitirá trabajar con ip
 
 #Memoria de 16 bits, que almacena elementos de 8 bits hexadecimales (ejemplo FAh)
 #NOTA: De 0 a 99 el espacio es reservado, de 100 a 1024 los usa la función cargar y de 1025 en adelante es de libre uso para programar
