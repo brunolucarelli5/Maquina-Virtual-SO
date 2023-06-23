@@ -75,9 +75,7 @@ def op_A3(parámetros, memoria):
     dirección_origen = int(dirección_origen,16)
     dirección_destino = str(parámetros[3]) + str(parámetros[4])
     dirección_destino = int(dirección_destino,16)
-    print(dirección_origen,dirección_destino)
     if (dirección_origen <= 65534 and dirección_origen >= 1025) and (dirección_destino <= 65534 and dirección_destino >= 1025):
-        print("entró")
         memoria[dirección_destino] = memoria[dirección_origen]
 
 """
@@ -122,23 +120,19 @@ memoria = cargar(archivo.read(),memoria)
 memoria[int("DD77",16)] = "33"
 
 #Cargamos el vector parámetros 
-#while parámetros[0] != "FF":
-ip = obtener_parámetros(ip,matriz,memoria,parámetros)
-
-print(parámetros)
-
-
-if parámetros[0] == "A0":
-    op_A0(parámetros, memoria)
-elif parámetros[0] == "A1":
-    op_A1(parámetros, memoria)
-elif parámetros[0] == "A2":
-    op_A2(parámetros, memoria)
-elif parámetros[0] == "A3":
-    op_A3(parámetros, memoria)            
+while parámetros[0] != "FF":
+    ip = obtener_parámetros(ip,matriz,memoria,parámetros)
+    if parámetros[0] == "A0":
+        op_A0(parámetros, memoria)
+    elif parámetros[0] == "A1":
+        op_A1(parámetros, memoria)
+    elif parámetros[0] == "A2":
+        op_A2(parámetros, memoria)
+    elif parámetros[0] == "A3":
+        op_A3(parámetros, memoria)           
 
 print("finalizó ejecución")
 #op_FF() #Generamos los archivos
 
 print("debería ser 33:",memoria[int("FFFE",16)])
-#print("debería ser 16:",memoria[int("ABFF", 16)])
+print("debería ser 16:",memoria[int("CC00", 16)])
