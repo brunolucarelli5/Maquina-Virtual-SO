@@ -9,7 +9,7 @@ A continuación se realizará la INICIALIZACIÓN DE VARIABLES,
 según los refinamientos planteados en https://docs.google.com/document/d/1d9OCoB_hRpRdz8k71dXcPaGg0XyF2U0yhzvx864gpnc/edit?usp=sharing
 """
 xp = str()  #Registro de propósito general, de 16 bits hexadecimales (ejemplo 00FFh)
-ip = str()  #Registro que apunta a la siguiente dirección, de 16 bits hexadecimales (ejemplo 77AAh)
+ip = hex(0x64)  #Registro que apunta a la siguiente dirección, de 16 bits hexadecimales (ejemplo 77AAh)
 
 #Memoria de 16 bits, que almacena elementos de 8 bits hexadecimales (ejemplo FAh)
 #NOTA: De 0 a 99 el espacio es reservado, de 100 a 1024 los usa la función cargar y de 1025 en adelante es de libre uso para programar
@@ -35,8 +35,7 @@ matriz[4][0] = "A3"
 matriz[4][1] = "4"
 
 """
-A partir de aquí se trabajarán los PROCESOS que permiten el funcionamiento de 
-esta máquina virtual. 
+A partir de aquí se trabajarán los PROCESOS que permiten el funcionamiento de esta máquina virtual. 
 """
 
 #Copiar archivo que contiene función "cargar"
