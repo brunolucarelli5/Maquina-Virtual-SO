@@ -17,8 +17,12 @@ def cargar(cod_binario, memoria):
 
     while bandera != True: 
         instruc = str(cod_binario)[a:b]
-        hexa = hex(int(instruc, 2))
-        
+
+        cadena = hex(int(instruc, 2)).upper()
+        hexa = cadena[2:len(cadena)]
+        if len(hexa) == 1:
+            hexa = '0' + hexa
+
         memoria[i] = hexa
         i += 1
 
@@ -83,7 +87,7 @@ ip = hex(0x64)  #Registro que apunta a la siguiente dirección, de 16 bits hexad
 
 #Memoria de 16 bits, que almacena elementos de 8 bits hexadecimales (ejemplo FAh)
 #NOTA: De 0 a 99 el espacio es reservado, de 100 a 1024 los usa la función cargar y de 1025 en adelante es de libre uso para programar
-memoria = [hex(0x0)] * 65535 
+memoria = ["00"] * 65535 
 parámetros = [""] * 10 #Vector utilizado para extraer parámetros de 8 bits hexadecimales de las operaciones (ejemplo B5h)
 
 #Definimos una matriz que contenga las operaciones
@@ -134,5 +138,5 @@ elif parámetros[0] == "A3":
 print("finalizó ejecución")
 #op_FF() #Generamos los archivos
 
-print("debería ser 33:",memoria[int("FFFF",16)])
+print("debería ser 33:",memoria[int("FFFE",16)])
 print("debería ser 16:",memoria[int("00FF", 16)])
