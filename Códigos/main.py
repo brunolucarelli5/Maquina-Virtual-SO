@@ -1,10 +1,11 @@
 """
 MÁQUINA VIRTUAL - SO 2023
 Integrantes: Lucarelli, Monti, Mosconi, Terreno
+Refinamientos: Planteados en https://docs.google.com/document/d/1d9OCoB_hRpRdz8k71dXcPaGg0XyF2U0yhzvx864gpnc/edit?usp=sharing
 """
 
 """
-DEFINICIÓN DE FUNCIONES
+F U N C I O N E S
 """
 def cargar(cod_binario, memoria):
     longitud = len(str(cod_binario))
@@ -54,7 +55,7 @@ def obtener_parámetros(ip,matriz,memoria,parámetros):
 
 def op_FF(memoria,xp,ip):
     # Si no existe, se crea el archivo
-    archivo = open("archivo.txt", "w+")
+    archivo = open("memory_dump.txt", "w+")
 
     archivo.write("------------------------REGISTROS-------------------\n")
     archivo.write("xp, " + str(xp) + "\n")
@@ -94,9 +95,10 @@ def op_A3(parámetros, memoria):
     if (dirección_origen <= 65534 and dirección_origen >= 1025) and (dirección_destino <= 65534 and dirección_destino >= 1025):
         memoria[dirección_destino] = memoria[dirección_origen]
 
+
+
 """
-A continuación se realizará la INICIALIZACIÓN DE VARIABLES, 
-según los refinamientos planteados en https://docs.google.com/document/d/1d9OCoB_hRpRdz8k71dXcPaGg0XyF2U0yhzvx864gpnc/edit?usp=sharing
+I N I C I A L I Z A C I Ó N  D E  V A R I A B L E S
 """
 xp = str()  #Registro de propósito general, de 16 bits hexadecimales (ejemplo 00FFh)
 ip = hex(0x64)  #Registro que apunta a la siguiente dirección, de 16 bits hexadecimales (ejemplo 77AAh)
@@ -125,15 +127,19 @@ matriz[4][0] = "A3" #A3h
 matriz[4][1] = "4"
 
 """
-A partir de aquí se trabajarán los PROCESOS que permiten el funcionamiento de esta máquina virtual. 
+E N T R A D A S
+Aquí se cargarán las entradas, que el código que se cargará en memoria usará para trabajar. 
 """
+memoria[int("DD77",16)] = "33"
 
+
+
+"""
+P R O C E S O S
+"""
 #Cargamos el programa del archivo "ENTRADA.txt" en memoria
 archivo = open("ENTRADA.txt","r")
 memoria = cargar(archivo.read(),memoria)
-
-#COSA DE PRUEBA - BORRAR DESPUÉS
-memoria[int("DD77",16)] = "33"
 
 #Cargamos el vector parámetros 
 while parámetros[0] != "FF":
