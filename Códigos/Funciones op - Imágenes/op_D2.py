@@ -9,4 +9,4 @@ def op_D2(parámetros, memoria):
         xp = hex(dirección_destino)
         return xp
     else:
-        print(" /!\ Error en la ejecución de D0: Dirección inválida /!\ ") 
+        print(" /!\ Error en la ejecución de D2: Dirección inválida /!\ ") 
