@@ -71,6 +71,7 @@ def op_F1(memoria,xp,ip):
 def op_A0(parámetros, memoria):
     dirección = concatenar_hex(parámetros[1],parámetros[2])
     dirección = int(dirección, 16)
+
     if dirección <= 65534 and dirección >= 1025:
         memoria[dirección] = parámetros[3]
         return 0 #Operación exitosa: Devolvemos 0
@@ -241,7 +242,7 @@ while parámetros[0] != "0xf1" and estado == 0:
             print(" /!\ Error en la ejecución de A2: Dirección inválida /!\ ")
 
     elif parámetros[0] == "0xa3":
-        estado = op_A3(parámetros, memoria)           
+        estado = op_A3(parámetros, memoria)          
         if estado != 0:
             print(" /!\ Error en la ejecución de A3: Dirección inválida /!\ ")
 
