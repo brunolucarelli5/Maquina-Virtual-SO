@@ -48,14 +48,14 @@ matriz[4][1] = "4"
 
 #Cargamos memoria con un programa de ejemplo
 memoria[100] = "0xa3" #op_A3(parámetros)
-memoria[101] = "0x0"
+memoria[101] = "0xdd"
 memoria[102] = "0x77"
-memoria[103] = "0xf1"
-memoria[104] = "0xf1" 
+memoria[103] = "0xff"
+memoria[104] = "0xfe" 
 
 memoria[105] = "0xa0" #op_A0(parámetros)
-memoria[106] = "0x0"
-memoria[107] = "0xf1"
+memoria[106] = "0xcc"
+memoria[107] = "0x00"
 memoria[108] = "0x16"
 
 memoria[109] = "0xf1" #op_F1()

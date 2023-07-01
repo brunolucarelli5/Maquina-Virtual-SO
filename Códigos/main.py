@@ -84,7 +84,7 @@ def op_A1(parámetros, memoria):
         memoria[dirección] = ip
         return 0 #Operación exitosa
     else:
-        return 2 #Operación exitosa  
+        return 2 #Operación fallida
 
 def op_A2(parámetros, memoria):
     dirección = concatenar_hex(parámetros[1],parámetros[2])
@@ -93,7 +93,7 @@ def op_A2(parámetros, memoria):
         ip = memoria[dirección]
         return 0 #Operación exitosa
     else:
-        return 3 #Operación exitosa 
+        return 3 #Operación fallida
 
 def op_A3(parámetros, memoria):
     dirección_origen = concatenar_hex(parámetros[1],parámetros[2])
@@ -104,7 +104,7 @@ def op_A3(parámetros, memoria):
         memoria[dirección_destino] = memoria[dirección_origen]
         return 0 #Operación exitosa
     else:
-        return 4 #Operación exitosa  
+        return 4 #Operación fallida  
 
 
 """
@@ -118,6 +118,7 @@ import os.path
 inválido = False
 dirección = "0"
 valor = "0"
+estado = 0 #nos informa el estado de ejecución de las funciones op. 0 es correcto, entero postivo es error.
 
 
 #REGISTROS
@@ -216,30 +217,30 @@ print("-------------------------------------------------------------------------
 
 
 print("INICIO DE EJECUCIÓN")
-#Cargamos el vector parámetros. Para ello tenemos que volver ip a la dir. donde inicia el programa, que es la 100
+#Cargamos el vector parámetros. Para ello tenemos que volver ip a la dirección donde inicia el programa (la n° 100)
 ip = "0x64"
-while parámetros[0] != "0xf1":
+while parámetros[0] != "0xf1" and estado == 0:
     ip = obtener_parámetros(ip,matriz,memoria,parámetros)
     #print(ip,int(ip,16),parámetros) #permite ver la evolución del registro ip y el vector parámetros
     if parámetros[0] == "0xa0":
         estado = op_A0(parámetros, memoria)
         if estado != 0:
-            print("---Error en la ejecución de A0: Dirección inválida")
+            print(" /!\ Error en la ejecución de A0: Dirección inválida /!\ ")
 
     elif parámetros[0] == "0xa1":
         estado = op_A1(parámetros, memoria)
         if estado != 0:
-            print("---Error en la ejecución de A1: Dirección inválida")
+            print(" /!\ Error en la ejecución de A1: Dirección inválida /!\ ")
 
     elif parámetros[0] == "0xa2":
         estado = op_A2(parámetros, memoria)
         if estado != 0:
-            print("---Error en la ejecución de A2: Dirección inválida")
+            print(" /!\ Error en la ejecución de A2: Dirección inválida /!\ ")
 
     elif parámetros[0] == "0xa3":
         estado = op_A3(parámetros, memoria)           
         if estado != 0:
-            print("---Error en la ejecución de A3: Dirección inválida")
+            print(" /!\ Error en la ejecución de A3: Dirección inválida /!\ ")
 
 print("FIN DE EJECUCIÓN --- Archivo memory_dump generado :)")
 op_F1(memoria,xp,ip) #Generamos el archivo memory_dump, que nos mostrará cómo quedó la memoria después del programa
