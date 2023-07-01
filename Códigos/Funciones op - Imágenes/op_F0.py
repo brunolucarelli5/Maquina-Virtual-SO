@@ -1,4 +1,4 @@
-def op_F1(memoria,xp,ip):
+def op_F0(memoria,xp,ip):
     # Si no existe, se crea el archivo
     archivo = open("memory_dump.txt", "w+")
 
@@ -13,3 +13,5 @@ def op_F1(memoria,xp,ip):
         archivo.write(str(hex(i))+","+str(memoria[i])+"\n")
 
     archivo.close()
+
+    return hex(int(xp,16))

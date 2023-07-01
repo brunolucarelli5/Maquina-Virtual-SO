@@ -3,6 +3,8 @@ def op_A2(parámetros, memoria):
     dirección = int(dirección, 16)
     if dirección <= 65534 and dirección >= 1025:
         ip = memoria[dirección]
-        return 0 #Operación exitosa
+        xp = hex(dirección)
+
+        return xp
     else:
-        return 3 #Operación fallida
+        print(" /!\ Error en la ejecución de A2: Dirección inválida /!\ ")
