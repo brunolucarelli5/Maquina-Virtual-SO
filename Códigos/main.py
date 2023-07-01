@@ -52,7 +52,7 @@ def concatenar_hex(más_significativo, menos_significativo):
 
     return concatenado
 
-def op_F1(memoria,xp,ip):
+def op_F0(memoria,xp,ip):
     # Si no existe, se crea el archivo
     archivo = open("memory_dump.txt", "w+")
 
@@ -243,4 +243,4 @@ while parámetros[0] != "0xf1" and estado == 0:
             print(" /!\ Error en la ejecución de A3: Dirección inválida /!\ ")
 
 print("FIN DE EJECUCIÓN --- Archivo memory_dump generado :)")
-op_F1(memoria,xp,ip) #Generamos el archivo memory_dump, que nos mostrará cómo quedó la memoria después del programa
+op_F0(memoria,xp,ip) #Generamos el archivo memory_dump, que nos mostrará cómo quedó la memoria después del programa
