@@ -71,30 +71,34 @@ def op_F1(memoria,xp,ip):
 def op_A0(parámetros, memoria):
     dirección = concatenar_hex(parámetros[1],parámetros[2])
     dirección = int(dirección, 16)
-
     if dirección <= 65534 and dirección >= 1025:
         memoria[dirección] = parámetros[3]
-        return 0 #Operación exitosa: Devolvemos 0
+        xp = hex(dirección)
+        return xp
     else:
-        return 1 #Operación fallida: Devolvemos un entero positivo acorde a la documentación                  
+        print(" /!\ Error en la ejecución de A0: Dirección inválida /!\ ")                 
 
 def op_A1(parámetros, memoria):
     dirección = concatenar_hex(parámetros[1],parámetros[2])
     dirección = int(dirección, 16)
     if dirección <= 65534 and dirección >= 1025:
         memoria[dirección] = ip
-        return 0 #Operación exitosa
+
+        xp = hex(dirección)
+        return xp
     else:
-        return 2 #Operación fallida
+        print(" /!\ Error en la ejecución de A1: Dirección inválida /!\ ")
 
 def op_A2(parámetros, memoria):
     dirección = concatenar_hex(parámetros[1],parámetros[2])
     dirección = int(dirección, 16)
     if dirección <= 65534 and dirección >= 1025:
         ip = memoria[dirección]
-        return 0 #Operación exitosa
+        xp = hex(dirección)
+
+        return xp
     else:
-        return 3 #Operación fallida
+        print(" /!\ Error en la ejecución de A2: Dirección inválida /!\ ")
 
 def op_A3(parámetros, memoria):
     dirección_origen = concatenar_hex(parámetros[1],parámetros[2])
@@ -103,9 +107,10 @@ def op_A3(parámetros, memoria):
     dirección_destino = int(dirección_destino,16)
     if (dirección_origen <= 65534 and dirección_origen >= 1025) and (dirección_destino <= 65534 and dirección_destino >= 1025):
         memoria[dirección_destino] = memoria[dirección_origen]
-        return 0 #Operación exitosa
+        xp = hex(dirección_destino)
+        return xp
     else:
-        return 4 #Operación fallida  
+        print(" /!\ Error en la ejecución de A3: Dirección inválida /!\ ")
 
 
 """
@@ -225,26 +230,14 @@ while parámetros[0] != "0xf1" and estado == 0:
     ip = obtener_parámetros(ip,matriz,memoria,parámetros)
     #print(ip,int(ip,16),parámetros) #permite ver la evolución del registro ip y el vector parámetros
 
-
     if parámetros[0] == "0xa0":
-        estado = op_A0(parámetros, memoria)
-        if estado != 0:
-            print(" /!\ Error en la ejecución de A0: Dirección inválida /!\ ")
-
+        xp = op_A0(parámetros, memoria)
     elif parámetros[0] == "0xa1":
-        estado = op_A1(parámetros, memoria)
-        if estado != 0:
-            print(" /!\ Error en la ejecución de A1: Dirección inválida /!\ ")
-
+        xp = op_A1(parámetros, memoria)
     elif parámetros[0] == "0xa2":
-        estado = op_A2(parámetros, memoria)
-        if estado != 0:
-            print(" /!\ Error en la ejecución de A2: Dirección inválida /!\ ")
-
+        xp = op_A2(parámetros, memoria)
     elif parámetros[0] == "0xa3":
-        estado = op_A3(parámetros, memoria)          
-        if estado != 0:
-            print(" /!\ Error en la ejecución de A3: Dirección inválida /!\ ")
-
+        xp = op_A3(parámetros, memoria)       
+            
 print("FIN DE EJECUCIÓN --- Archivo memory_dump generado :)")
 op_F1(memoria,xp,ip) #Generamos el archivo memory_dump, que nos mostrará cómo quedó la memoria después del programa
