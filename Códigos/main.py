@@ -52,7 +52,7 @@ def concatenar_hex(más_significativo, menos_significativo):
 
     return concatenado
 
-def op_F0(memoria,xp,ip):
+def op_F1(memoria,xp,ip):
     # Si no existe, se crea el archivo
     archivo = open("memory_dump.txt", "w+")
 
@@ -219,9 +219,12 @@ print("-------------------------------------------------------------------------
 print("INICIO DE EJECUCIÓN")
 #Cargamos el vector parámetros. Para ello tenemos que volver ip a la dirección donde inicia el programa (la n° 100)
 ip = "0x64"
+
 while parámetros[0] != "0xf1" and estado == 0:
     ip = obtener_parámetros(ip,matriz,memoria,parámetros)
     #print(ip,int(ip,16),parámetros) #permite ver la evolución del registro ip y el vector parámetros
+
+
     if parámetros[0] == "0xa0":
         estado = op_A0(parámetros, memoria)
         if estado != 0:
@@ -243,4 +246,4 @@ while parámetros[0] != "0xf1" and estado == 0:
             print(" /!\ Error en la ejecución de A3: Dirección inválida /!\ ")
 
 print("FIN DE EJECUCIÓN --- Archivo memory_dump generado :)")
-op_F0(memoria,xp,ip) #Generamos el archivo memory_dump, que nos mostrará cómo quedó la memoria después del programa
+op_F1(memoria,xp,ip) #Generamos el archivo memory_dump, que nos mostrará cómo quedó la memoria después del programa
