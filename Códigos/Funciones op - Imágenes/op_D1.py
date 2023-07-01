@@ -1,4 +1,4 @@
-def op_A0(parámetros, memoria):
+def op_D1(parámetros, memoria):
     dirección_origen = concatenar_hex(parámetros[1],parámetros[2])
     dirección_origen = int(dirección_origen, 16)
     dirección_destino = concatenar_hex(parámetros[3],parámetros[4])
@@ -9,4 +9,4 @@ def op_A0(parámetros, memoria):
         xp = hex(dirección_destino)
         return xp
     else:
-        print(" /!\ Error en la ejecución de D0: Dirección inválida /!\ ") 
+        print(" /!\ Error en la ejecución de D1: Dirección inválida /!\ ") 
