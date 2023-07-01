@@ -2,10 +2,10 @@ def op_A4(parámetros, memoria):
 	dirección_origen = concatenar_hex(parámetros[1], parámetros[2])
 	origen_decimal = int(dirección_origen, 16)
 	if dirección_origen >=1025 and dirección_origen <= 65534:
-		contenido = memoria[dirección_origen]
-		dirección_destino = xp
+		contenido = memoria[origen_decimal]
+		dirección_destino = int(xp, 16)
 		memoria[dirección_destino] = contenido
-		estado = 0 
+		xp = hex(dirección_destino)
+		return xp
 	else:
-		estado = 4
-    return estado
+		print(" /!\ Error en la ejecución de A4: Dirección inválida /!\ ")
