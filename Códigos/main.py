@@ -190,8 +190,8 @@ while dirección != "":
                 print("VALOR INVÁLIDO, intente nuevamente:")
 
                 while invalido == True:
-                    valor = str(input("Ingrese una dirección. Deje vacío para salir: ")).lower()
-                    if int(valor,16) >= 1025 and int(valor,16) <= 65534 and len(valor) == 4:
+                    valor = str(input("Ingrese un valor. Deje vacío para salir: ")).lower()
+                    if int(valor,16) >= 0 and int(valor,16) <= 255 and len(valor) == 4:
                         print("---Valor VÁLIDO---")
                         invalido = False
                     else:
