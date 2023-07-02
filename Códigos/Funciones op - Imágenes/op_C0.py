@@ -1,14 +1,13 @@
-def op_C0(dirección, memoria): 
-    resultado = ~(int(memoria[dirección],16)) & 255
-
-    if dirección <= 65534 and dirección >= 1025:
-       memoria[dirección] = resultado
-       xp = dirección
+def op_C0(parámetros, memoria): 
     
-       return xp
-    else:
-       print(" /!\ Error en la ejecución de C0: Dirección inválida /!\ ")
+   dirección = int(concatenar_hex(parámetros[1], parámetros[2]),16)
+   
 
-
-# input: 1010
-# output deseado: 0101
+   if dirección <= 65534 and dirección >= 1025:
+      resultado = ~(int(memoria[dirección],16)) & 255
+      memoria[dirección] = hex(resultado)
+      xp = hex(dirección)
+    
+      return xp
+   else:
+      print(" /!\ Error en la ejecución de C0: Dirección inválida /!\ ")

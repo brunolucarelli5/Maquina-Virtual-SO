@@ -1,10 +1,13 @@
-def op_C1(dirOrigen, dirDestino, memoria):
-    resultado = int(memoria[dirOrigen], 16) & int(memoria[dirDestino], 16)
+def op_C1(parámetros, memoria):
 
-    if (dirOrigen <= 65534 and dirOrigen >= 1025) and (dirDestino <= 65534 and dirDestino >= 1025):
-       memoria[dirDestino] = resultado
-       xp = dirDestino
+   dirOrigen = int(concatenar_hex(parámetros[1], parámetros[2]),16)
+   dirDestino = int(concatenar_hex(parámetros[3], parámetros[4]),16)
+
+   if (dirOrigen <= 65534 and dirOrigen >= 1025) and (dirDestino <= 65534 and dirDestino >= 1025):
+      resultado = int(memoria[dirOrigen], 16) & int(memoria[dirDestino], 16)
+      memoria[dirDestino] = hex(resultado)
+      xp = hex(dirDestino)
     
-       return xp
-    else:
+      return xp
+   else:
        print(" /!\ Error en la ejecución de C1: Dirección inválida /!\ ")
