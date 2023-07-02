@@ -80,9 +80,9 @@ def op_A0(parámetros, memoria):
         xp = hex(dirección)
         return xp
     else:
-        print(" /!\ Error en la ejecución de A0: Dirección inválida /!\ ")                 
+        print(" /!\ Error en la ejecución de A0: Dirección inválida /!\ ")
 
-def op_A1(parámetros, memoria):
+def op_A1(parámetros, memoria,ip):
     dirección = concatenar_hex(parámetros[1],parámetros[2])
     dirección = int(dirección, 16)
     if dirección <= 65534 and dirección >= 1025:
@@ -126,19 +126,20 @@ def op_A4(parámetros, memoria):
 		xp = hex(dirección_destino)
 		return xp
 	else:
-		print(" /!\ Error en la ejecución de A4: Dirección inválida /!\ ")
+            print(" /!\ Error en la ejecución de A4: Dirección inválida /!\ ")
 
-def op_A5(parámetros,memoria):
+
+def op_A5(parámetros,memoria,xp):
 	dirección_destino = int(concatenar_hex(parámetros[1], parámetros[2]), 16)
-	destino_decimal = int(dirección_destino, 16)
-	if destino_decimal >=1025 and destino_decimal <= 65534:
+
+	if dirección_destino >=1025 and dirección_destino <= 65534:
 		dirección_origen = int(xp, 16)
 		contenido = memoria[dirección_origen]
 		memoria[dirección_destino] = contenido
 		xp = hex(dirección_destino)
 		return xp
 	else: 
-		print(" /!\ Error en la ejecución de A5: Dirección inválida /!\ ")
+         print(" /!\ Error en la ejecución de A5: Dirección inválida /!\ ")
 
 def op_A6(parámetros, memoria):
     dirección_destino = int(concatenar_hex(parámetros[1], parámetros[2]), 16)
@@ -162,7 +163,7 @@ def op_A7(parámetros, memoria):
 		xp = contenido
 		return xp
 	else:
-		print(" /!\ Error en la ejecución de A7: Dirección inválida /!\ ")
+            print(" /!\ Error en la ejecución de A7: Dirección inválida /!\ ")
 
 #OPERACIONES DE SALTO
 def op_B0(parámetros, memoria):
@@ -179,57 +180,26 @@ def op_B0(parámetros, memoria):
 
         if memoria[dirección_verificación] == hex(0x0):
             ip = hex(dirección_salto)
+            xp = hex(dirección_salto)
+
+            vector_auxiliar[0] = xp
+            vector_auxiliar[1] = ip
+
+            return vector_auxiliar
 
     else:
         print(" /!\ Error en la ejecución de B0: Dirección inválida /!\ ")
 
-    xp = hex(dirección_salto)
 
-    vector_auxiliar[0] = xp
-    vector_auxiliar[1] = ip
 
-    return vector_auxiliar
-    #El primer elemento del vector es el valor del registro XP, el segundo es el valor de IP
-    vector_auxiliar = [""] * 2
-
-    dirección_salto = concatenar_hex(parámetros[1], parámetros[2])
-    dirección_salto = int(dirección_salto, 16)
-
-    dirección_verificación = concatenar_hex(parámetros[3], parámetros[4])
-    dirección_verificación = int(dirección_verificación, 16)
-
-    if (dirección_salto <= 1024 and dirección_salto >= 100) and (dirección_verificación <= 65534 and dirección_verificación >= 1025):
-
-        if memoria[dirección_verificación] == hex(0x0):
-            ip = hex(dirección_salto)
-
-    else:
-        print(" /!\ Error en la ejecución de B0: Dirección inválida /!\ ")
-
-    xp = hex(dirección_salto)
-
-    vector_auxiliar[0] = xp
-    vector_auxiliar[1] = ip
-
-    return vector_auxiliar
-
-def op_B1(parámetros):
+def op_B1(parámetros,ip):
     dirección_salto = concatenar_hex(parámetros[1], parámetros[2])
     dirección_salto = int(dirección_salto, 16)
 
     if (dirección_salto <= 1024 and dirección_salto >= 100):
         ip = hex(dirección_salto)
     else:
-        print(" /!\ Error en la ejecución de B0: Dirección inválida /!\ ")
-
-    return ip
-    dirección_salto = concatenar_hex(parámetros[1], parámetros[2])
-    dirección_salto = int(dirección_salto, 16)
-
-    if (dirección_salto <= 1024 and dirección_salto >= 100):
-        ip = hex(dirección_salto)
-    else:
-        print(" /!\ Error en la ejecución de B0: Dirección inválida /!\ ")
+        print(" /!\ Error en la ejecución de B1: Dirección inválida /!\ ")
 
     return ip
 
@@ -250,18 +220,7 @@ def op_C0(parámetros, memoria):
       return xp
    else:
       print(" /!\ Error en la ejecución de C0: Dirección inválida /!\ ")
-    
-   dirección = int(concatenar_hex(parámetros[1], parámetros[2]),16)
-   
 
-   if dirección <= 65534 and dirección >= 1025:
-      resultado = ~(int(memoria[dirección],16)) & 255
-      memoria[dirección] = hex(resultado)
-      xp = hex(dirección)
-    
-      return xp
-   else:
-      print(" /!\ Error en la ejecución de C0: Dirección inválida /!\ ")
 
 def op_C1(parámetros, memoria):
 
@@ -290,6 +249,7 @@ def op_C2(parámetros, memoria):
       return xp
    else:
        print(" /!\ Error en la ejecución de C2: Dirección inválida /!\ ")
+
 
 def op_C3(parámetros, memoria):
 
@@ -328,18 +288,7 @@ def op_D0(parámetros, memoria):
         
         return xp
     else:
-        print(" /!\ Error en la ejecución de D0: Dirección inválida /!\ ") 
-    dirección_origen = concatenar_hex(parámetros[1],parámetros[2])
-    dirección_origen = int(dirección_origen, 16)
-    dirección_destino = concatenar_hex(parámetros[3],parámetros[4])
-    dirección_destino = int(dirección_destino,16)
-
-    if (dirección_origen <= 65534 and dirección_origen >= 1025) and (dirección_destino <= 65534 and dirección_destino >= 1025):
-        memoria[dirección_destino] = memoria[dirección_destino] + memoria[dirección_origen]
-        xp = hex(dirección_destino)
-        return xp
-    else:
-        print(" /!\ Error en la ejecución de D0: Dirección inválida /!\ ") 
+        print(" /!\ Error en la ejecución de D0: Dirección inválida /!\ ")
 
 def op_D1(parámetros, memoria):
     dirección_origen = concatenar_hex(parámetros[1],parámetros[2])
@@ -359,17 +308,6 @@ def op_D1(parámetros, memoria):
         xp = hex(dirección_destino)
         
     else:
-        print(" /!\ Error en la ejecución de D1: Dirección inválida /!\ ") 
-    dirección_origen = concatenar_hex(parámetros[1],parámetros[2])
-    dirección_origen = int(dirección_origen, 16)
-    dirección_destino = concatenar_hex(parámetros[3],parámetros[4])
-    dirección_destino = int(dirección_destino,16)
-
-    if (dirección_origen <= 65534 and dirección_origen >= 1025) and (dirección_destino <= 65534 and dirección_destino >= 1025):
-        memoria[dirección_destino] = memoria[dirección_destino] - memoria[dirección_origen]
-        xp = hex(dirección_destino)
-        return xp
-    else:
         print(" /!\ Error en la ejecución de D1: Dirección inválida /!\ ")
 
 def op_D2(parámetros, memoria):
@@ -386,18 +324,6 @@ def op_D2(parámetros, memoria):
         return xp
     else:
         print(" /!\ Error en la ejecución de D2: Dirección inválida /!\ ") 
-    dirección_origen = concatenar_hex(parámetros[1],parámetros[2])
-    dirección_origen = int(dirección_origen, 16)
-    dirección_destino = concatenar_hex(parámetros[3],parámetros[4])
-    dirección_destino = int(dirección_destino,16)
-
-    if (dirección_origen <= 65534 and dirección_origen >= 1025) and (dirección_destino <= 65534 and dirección_destino >= 1025):
-        memoria[dirección_destino] = memoria[dirección_origen] % memoria[dirección_destino]
-        xp = hex(dirección_destino)
-        return xp
-    else:
-        print(" /!\ Error en la ejecución de D2: Dirección inválida /!\ ") 
-
 
 
 """
@@ -408,10 +334,10 @@ import os.path
 
 
 #CARGA DE DATOS DE ENTRADA
-inválido = False
+inválido = False    #Ayuda a cargar datos de entrada
+error = False   #Determina si la ejecución de una función fue fuera de las direcciones permitidas
 dirección = "0"
 valor = "0"
-estado = 0 #nos informa el estado de ejecución de las funciones op. 0 es correcto, entero postivo es error.
 
 
 #REGISTROS
@@ -424,7 +350,7 @@ memoria = [hex(0x0)] * 65535
 parámetros = [""] * 10 #Vector utilizado para extraer parámetros de 8 bits hexadecimales de las operaciones (ejemplo B5h)
 
 #Definimos una matriz que contenga las operaciones
-filas = 6
+filas = 19
 columnas = 2  
 matriz = [[str() for ind0 in range(columnas)] for ind1 in range(filas)]
 
@@ -468,8 +394,6 @@ matriz[17][0] = "0xd1"
 matriz[17][1] = "4"
 matriz[18][0] = "0xd2"
 matriz[18][1] = "4"
-matriz[19][0] = "0xd3"
-matriz[19][1] = "4"
 
 """
 E N T R A D A S
@@ -544,7 +468,7 @@ print("INICIO DE EJECUCIÓN")
 ip = "0x64"
 
 #MANEJADOR DE FUNCIONES
-while parámetros[0] != "0xf1" and estado == 0:
+while parámetros[0] != "0xf1" and error == False:
     ip = obtener_parámetros(ip,matriz,memoria,parámetros)
     #print(ip,int(ip,16),parámetros) #permite ver la evolución del registro ip y el vector parámetros
 
@@ -555,7 +479,7 @@ while parámetros[0] != "0xf1" and estado == 0:
     elif parámetros[0] == "0xa0":
         xp = op_A0(parámetros, memoria)
     elif parámetros[0] == "0xa1":
-        xp = op_A1(parámetros, memoria)
+        xp = op_A1(parámetros, memoria,ip)
     elif parámetros[0] == "0xa2":
         xp = op_A2(parámetros, memoria)
     elif parámetros[0] == "0xa3":
@@ -563,7 +487,7 @@ while parámetros[0] != "0xf1" and estado == 0:
     elif parámetros[0] == "0xa4":
         xp = op_A4(parámetros, memoria) 
     elif parámetros[0] == "0xa5":
-        xp = op_A5(parámetros, memoria)
+        xp = op_A5(parámetros, memoria,xp)
     elif parámetros[0] == "0xa6":
         xp = op_A6(parámetros, memoria)
     elif parámetros[0] == "0xa7":
@@ -577,7 +501,7 @@ while parámetros[0] != "0xf1" and estado == 0:
         ip = hex(vector_auxiliar[1])
 
     elif parámetros[0] == "0xb1":
-        ip = op_B1(parámetros)
+        ip = op_B1(parámetros,ip)
     
     #Operaciones lógicas
     elif parámetros[0] == "0xc0":
@@ -590,11 +514,11 @@ while parámetros[0] != "0xf1" and estado == 0:
         xp = op_C3(parámetros, memoria)
     
     #Operaciones aritméticas
-    elif parámetros[0] == "0xD0":
+    elif parámetros[0] == "0xd0":
         xp = op_D0(parámetros, memoria)
-    elif parámetros[0] == "0xD1":
+    elif parámetros[0] == "0xd1":
         xp = op_D1(parámetros, memoria) 
-    elif parámetros[0] == "0xD2":
+    elif parámetros[0] == "0xd2":
         xp = op_D2(parámetros, memoria)               
             
 print("FIN DE EJECUCIÓN")
