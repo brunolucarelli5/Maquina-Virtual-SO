@@ -70,6 +70,10 @@ def op_F0(memoria,xp,ip):
 
     return hex(int(xp,16))
 
+
+"""
+OPERACIONES DE MOVIMIENTO
+"""
 def op_A0(parámetros, memoria):
     dirección = concatenar_hex(parámetros[1],parámetros[2])
     dirección = int(dirección, 16)
@@ -114,6 +118,161 @@ def op_A3(parámetros, memoria):
     else:
         print(" /!\ Error en la ejecución de A3: Dirección inválida /!\ ")
 
+def op_A4(parámetros, memoria):
+	dirección_origen = concatenar_hex(parámetros[1], parámetros[2])
+	origen_decimal = int(dirección_origen, 16)
+	if dirección_origen >=1025 and dirección_origen <= 65534:
+		contenido = memoria[origen_decimal]
+		dirección_destino = int(xp, 16)
+		memoria[dirección_destino] = contenido
+		xp = hex(dirección_destino)
+		return xp
+	else:
+		print(" /!\ Error en la ejecución de A4: Dirección inválida /!\ ")
+
+def op_A5(parámetros,memoria):
+	dirección_destino = int(concatenar_hex(parámetros[1], parámetros[2]), 16)
+	destino_decimal = int(dirección_destino, 16)
+	if destino_decimal >=1025 and destino_decimal <= 65534:
+		dirección_origen = int(xp, 16)
+		contenido = memoria[dirección_origen]
+		memoria[dirección_destino] = contenido
+		xp = hex(dirección_destino)
+		return xp
+	else: 
+		print(" /!\ Error en la ejecución de A5: Dirección inválida /!\ ")
+
+def op_A6(parámetros, memoria):
+    dirección_destino = int(concatenar_hex(parámetros[1], parámetros[2]), 16)
+    dirección_destino_siguiente = int(hex(destino_decimal + 1), 16)
+    destino_decimal = int(dirección_destino, 16)
+    if dirección_destino >=1025 and dirección_destino <= 65533:
+        x = xp[2:4]
+        p = xp[4:]
+        memoria[dirección_destino] = x
+        memoria[dirección_destino_siguiente] = p
+        xp = hex(dirección_destino_siguiente)
+        return xp
+    else:
+        print(" /!\ Error en la ejecución de A6: Dirección inválida /!\ ")
+
+def op_A7(parámetros, memoria):
+	dirección_origen = int(concatenar_hex(parámetros[1], parámetros[2]), 16)
+	dirección_origen_siguiente = dirección_origen + 1
+	if dirección_origen >=1025 and dirección_origen <= 65533:
+		contenido = memoria[dirección_origen] + memoria[dirección_origen_siguiente][2:]
+		xp = contenido
+		return xp
+	else:
+		print(" /!\ Error en la ejecución de A7: Dirección inválida /!\ ")
+
+"""
+OPERACIONES DE SALTO
+"""
+
+"""
+OPERACIONES LÓGICAS
+"""
+def op_C0(parámetros, memoria): 
+    
+   dirección = int(concatenar_hex(parámetros[1], parámetros[2]),16)
+   
+
+   if dirección <= 65534 and dirección >= 1025:
+      resultado = ~(int(memoria[dirección],16)) & 255
+      memoria[dirección] = hex(resultado)
+      xp = hex(dirección)
+    
+      return xp
+   else:
+      print(" /!\ Error en la ejecución de C0: Dirección inválida /!\ ")
+
+def op_C1(parámetros, memoria):
+
+   dirOrigen = int(concatenar_hex(parámetros[1], parámetros[2]),16)
+   dirDestino = int(concatenar_hex(parámetros[3], parámetros[4]),16)
+
+   if (dirOrigen <= 65534 and dirOrigen >= 1025) and (dirDestino <= 65534 and dirDestino >= 1025):
+      resultado = int(memoria[dirOrigen], 16) & int(memoria[dirDestino], 16)
+      memoria[dirDestino] = hex(resultado)
+      xp = hex(dirDestino)
+    
+      return xp
+   else:
+       print(" /!\ Error en la ejecución de C1: Dirección inválida /!\ ")
+
+def op_C2(parámetros, memoria):
+
+   dirOrigen = int(concatenar_hex(parámetros[1], parámetros[2]),16)
+   dirDestino = int(concatenar_hex(parámetros[3], parámetros[4]),16)
+
+   if (dirOrigen <= 65534 and dirOrigen >= 1025) and (dirDestino <= 65534 and dirDestino >= 1025):
+      resultado = int(memoria[dirOrigen], 16) | int(memoria[dirDestino], 16)
+      memoria[dirDestino] = hex(resultado)
+      xp = hex(dirDestino)
+    
+      return xp
+   else:
+       print(" /!\ Error en la ejecución de C2: Dirección inválida /!\ ")
+
+def op_C3(parámetros, memoria):
+
+   dirOrigen = int(concatenar_hex(parámetros[1], parámetros[2]),16)
+   dirDestino = int(concatenar_hex(parámetros[3], parámetros[4]),16)
+
+   if (dirOrigen <= 65534 and dirOrigen >= 1025) and (dirDestino <= 65534 and dirDestino >= 1025):
+      resultado = int(memoria[dirOrigen], 16) ^ int(memoria[dirDestino], 16)
+      memoria[dirDestino] = hex(resultado)
+      xp = hex(dirDestino)
+    
+      return xp
+   else:
+       print(" /!\ Error en la ejecución de C3: Dirección inválida /!\ ")
+
+
+"""
+OPERACIONES ARITMÉTICAS
+"""
+def op_D0(parámetros, memoria):
+    dirección_origen = concatenar_hex(parámetros[1],parámetros[2])
+    dirección_origen = int(dirección_origen, 16)
+    dirección_destino = concatenar_hex(parámetros[3],parámetros[4])
+    dirección_destino = int(dirección_destino,16)
+
+    if (dirección_origen <= 65534 and dirección_origen >= 1025) and (dirección_destino <= 65534 and dirección_destino >= 1025):
+        memoria[dirección_destino] = memoria[dirección_destino] + memoria[dirección_origen]
+        xp = hex(dirección_destino)
+        return xp
+    else:
+        print(" /!\ Error en la ejecución de D0: Dirección inválida /!\ ") 
+
+def op_D1(parámetros, memoria):
+    dirección_origen = concatenar_hex(parámetros[1],parámetros[2])
+    dirección_origen = int(dirección_origen, 16)
+    dirección_destino = concatenar_hex(parámetros[3],parámetros[4])
+    dirección_destino = int(dirección_destino,16)
+
+    if (dirección_origen <= 65534 and dirección_origen >= 1025) and (dirección_destino <= 65534 and dirección_destino >= 1025):
+        memoria[dirección_destino] = memoria[dirección_destino] - memoria[dirección_origen]
+        xp = hex(dirección_destino)
+        return xp
+    else:
+        print(" /!\ Error en la ejecución de D1: Dirección inválida /!\ ")
+
+def op_D2(parámetros, memoria):
+    dirección_origen = concatenar_hex(parámetros[1],parámetros[2])
+    dirección_origen = int(dirección_origen, 16)
+    dirección_destino = concatenar_hex(parámetros[3],parámetros[4])
+    dirección_destino = int(dirección_destino,16)
+
+    if (dirección_origen <= 65534 and dirección_origen >= 1025) and (dirección_destino <= 65534 and dirección_destino >= 1025):
+        memoria[dirección_destino] = memoria[dirección_origen] % memoria[dirección_destino]
+        xp = hex(dirección_destino)
+        return xp
+    else:
+        print(" /!\ Error en la ejecución de D2: Dirección inválida /!\ ") 
+
+
 
 """
 I N I C I A L I Z A C I Ó N  D E  V A R I A B L E S
@@ -156,7 +315,35 @@ matriz[3][1] = "2"
 matriz[4][0] = "0xa2"
 matriz[4][1] = "2"
 matriz[5][0] = "0xa3"
-matriz[5][1] = "4"
+matriz[5][1] = "4"      #38 EN TOTAL
+matriz[6][0] = ""
+matriz[6][1] =
+matriz[7][0] = 
+matriz[7][1] = 
+matriz[8][0] = 
+matriz[8][1] = 
+matriz[9][0] = 
+matriz[9][1] = 
+matriz[10][0] = 
+matriz[10][1] = 
+matriz[11][0] = 
+matriz[11][1] = 
+matriz[12][0] = 
+matriz[12][1] = 
+matriz[13][0] = 
+matriz[13][1] = 
+matriz[14][0] = 
+matriz[14][1] = 
+matriz[15][0] = 
+matriz[15][1] = 
+matriz[16][0] = 
+matriz[16][1] = 
+matriz[17][0] = 
+matriz[17][1] = 
+matriz[18][0] = 
+matriz[18][1] = 
+matriz[19][0] = 
+matriz[19][1] = 
 
 """
 E N T R A D A S
