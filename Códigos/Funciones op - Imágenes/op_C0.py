@@ -1,5 +1,5 @@
 def op_C0(parámetros, memoria): 
-    
+
    dirección = int(concatenar_hex(parámetros[1], parámetros[2]),16)
    
    if dirección <= 65534 and dirección >= 1025:
