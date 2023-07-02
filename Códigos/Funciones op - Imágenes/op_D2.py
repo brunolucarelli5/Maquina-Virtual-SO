@@ -5,7 +5,9 @@ def op_D2(parámetros, memoria):
     dirección_destino = int(dirección_destino,16)
 
     if (dirección_origen <= 65534 and dirección_origen >= 1025) and (dirección_destino <= 65534 and dirección_destino >= 1025):
-        memoria[dirección_destino] = memoria[dirección_origen] % memoria[dirección_destino]
+        resultado = int(memoria[dirección_destino],16) % int(memoria[dirección_origen],16)
+        
+        memoria[dirección_destino] = hex(resultado)
         xp = hex(dirección_destino)
         return xp
     else:

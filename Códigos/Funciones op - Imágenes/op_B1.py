@@ -1,9 +1,10 @@
-def op_B1(parámetros, memoria):
-    dirección_salto = concatenar_hex(parámetros[0], parámetros[1])
+def op_B1(parámetros):
+    dirección_salto = concatenar_hex(parámetros[1], parámetros[2])
     dirección_salto = int(dirección_salto, 16)
-    ip_int = int(ip, 16)
-    if direccion_salto >= 100 and direccion_salto <= 1025:
-        return hex(direccion_salto)
+
+    if (dirección_salto <= 1024 and dirección_salto >= 100):
+        ip = hex(dirección_salto)
     else:
-        ip_int += 1
-        return hex(ip_int), xp
+        print(" /!\ Error en la ejecución de B0: Dirección inválida /!\ ")
+
+    return ip
