@@ -1,4 +1,4 @@
-def op_A5(parámetros, memoria):
+def op_A6(parámetros, memoria):
 	dirección_destino = int(concatenar_hex(parámetros[1], parámetros[2]), 16)
     dirección_destino_siguiente = int(hex(destino_decimal + 1), 16)
 	destino_decimal = int(dirección_destino, 16)

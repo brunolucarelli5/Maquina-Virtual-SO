@@ -1,4 +1,4 @@
-def operacionNOT (dirección, memoria): 
+def op_C0(dirección, memoria): 
     resultado = ~(int(memoria[dirección],16)) & 255
 
     if dirección <= 65534 and dirección >= 1025:
@@ -12,4 +12,3 @@ def operacionNOT (dirección, memoria):
 
 # input: 1010
 # output deseado: 0101
-
