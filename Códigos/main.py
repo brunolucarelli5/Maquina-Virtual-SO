@@ -200,6 +200,11 @@ def op_B0(parámetros, memoria,xp,ip):
     else:
         print(" /!\ Error en la ejecución de B0: Dirección inválida /!\ ")
 
+    #Devolvemos los registro xp e ip tal cual
+    vector_auxiliar[0] = xp
+    vector_auxiliar[1] = ip
+    return vector_auxiliar
+
 def op_B1(parámetros,ip):
     dirección_salto = concatenar_hex(parámetros[1], parámetros[2])
     dirección_salto = int(dirección_salto, 16)
