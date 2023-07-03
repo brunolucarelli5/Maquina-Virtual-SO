@@ -1,4 +1,5 @@
 def op_D2(parámetros, memoria):
+    error = "0"
     dirección_origen = concatenar_hex(parámetros[1],parámetros[2])
     dirección_origen = int(dirección_origen, 16)
     dirección_destino = concatenar_hex(parámetros[3],parámetros[4])
@@ -9,8 +10,9 @@ def op_D2(parámetros, memoria):
 
         #MOD nunca será mayor a 0xff, por lo que no hace falta verificar
         memoria[dirección_destino] = hex(resultado)
-        xp = hex(dirección_destino)
 
-        return xp
+        return error
     else:
-        print(" /!\ Error en la ejecución de D2: Dirección inválida /!\ ") 
+        error = "1"
+        print(" /!\ Error en la ejecución de D2: Dirección inválida /!\ ")
+        return error

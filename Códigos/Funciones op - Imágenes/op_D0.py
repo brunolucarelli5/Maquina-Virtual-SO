@@ -1,4 +1,5 @@
-def op_D0(parámetros, memoria, xp):
+def op_D0(parámetros, memoria):
+    error = "0"
     dirección_origen = int(concatenar_hex(parámetros[1],parámetros[2]), 16)
     dirección_destino = int(concatenar_hex(parámetros[3],parámetros[4]), 16)
 
@@ -13,9 +14,10 @@ def op_D0(parámetros, memoria, xp):
             suma = "0x" + suma[len(suma) - 2 :]
         else:
             suma = hex(suma)
-        memoria[dirección_destino] = suma
-        xp = hex(dirección_destino)
+        memoria[dirección_destino] = suma   
         
-        return xp
+        return error
     else:
+        error = "1"
         print(" /!\ Error en la ejecución de D0: Dirección inválida /!\ ")
+        return error
