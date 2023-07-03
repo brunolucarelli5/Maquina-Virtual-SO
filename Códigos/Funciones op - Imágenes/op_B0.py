@@ -1,4 +1,4 @@
-def op_B0(parámetros, memoria):
+def op_B0(parámetros, memoria,xp,ip):
     #El primer elemento del vector es el valor del registro XP, el segundo es el valor de IP
     vector_auxiliar = [""] * 2
 
@@ -12,13 +12,17 @@ def op_B0(parámetros, memoria):
 
         if memoria[dirección_verificación] == hex(0x0):
             ip = hex(dirección_salto)
+            xp = hex(dirección_verificación)
 
+            vector_auxiliar[0] = xp
+            vector_auxiliar[1] = ip
+            return vector_auxiliar
+        
+        else:
+            xp = hex(dirección_verificación) #Actualizamos xp porque se chequeó dirección_verificación
+            vector_auxiliar[0] = xp
+            vector_auxiliar[1] = ip
+            return vector_auxiliar
+            
     else:
         print(" /!\ Error en la ejecución de B0: Dirección inválida /!\ ")
-
-    xp = hex(dirección_salto)
-
-    vector_auxiliar[0] = xp
-    vector_auxiliar[1] = ip
-
-    return vector_auxiliar

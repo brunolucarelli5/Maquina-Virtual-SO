@@ -1,6 +1,6 @@
 def obtener_parámetros(ip,matriz,memoria,parámetros):
     #Inicialización de variables
-    ip_decimal = 100 #Reiniciamos la posición de ip para leer desde el principio al programa cargado con cargar()
+    ip_decimal = int(ip,16) #La posición del puntero ip nos permite determinar dónde empezar a leer.
 
     for i in range(filas):
         if memoria[ip_decimal] == matriz[i][0]:
@@ -14,7 +14,6 @@ def obtener_parámetros(ip,matriz,memoria,parámetros):
     #El puntero ip quedó en la posición del último parámetro. Le sumamos 1 para que quede posicionado en la siguiente instrucción.
     ip_decimal = ip_decimal + 1
     ip = hex(ip_decimal) 
-
     return ip
 
 

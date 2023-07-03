@@ -10,4 +10,4 @@ def cargar(nombre_archivoBin, memoria,ip):
         memoria[ip_dec] = hex(int(binario[i:i+2],16))
         ip_dec = ip_dec + 1
 
-    return hex(ip_dec) 
+    return hex(ip_dec)

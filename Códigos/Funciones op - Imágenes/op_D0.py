@@ -12,7 +12,9 @@ def op_D0(parámetros, memoria):
             resultado = hex(resultado)
             resultado = "0x"+resultado[len(resultado)-2:len(resultado)]
 
-        memoria[dirección_destino] = hex(resultado)
+        resultado = str(resultado)
+
+        memoria[dirección_destino] = hex(int(resultado,16))
         xp = hex(dirección_destino)
         
         return xp

@@ -86,21 +86,26 @@ def op_A1(parámetros, memoria,ip):
     dirección = concatenar_hex(parámetros[1],parámetros[2])
     dirección = int(dirección, 16)
     if dirección <= 65534 and dirección >= 1025:
-        memoria[dirección] = ip
+        memoria[dirección] = hex(int(ip,16) - int("0x1",16))     #restamos 2 porque el puntero se coloca al final de los parámetros después de leerlos 
 
         xp = hex(dirección)
         return xp
     else:
         print(" /!\ Error en la ejecución de A1: Dirección inválida /!\ ")
 
-def op_A2(parámetros, memoria):
+def op_A2(parámetros, memoria,ip):
     dirección = concatenar_hex(parámetros[1],parámetros[2])
     dirección = int(dirección, 16)
-    if dirección <= 65534 and dirección >= 1025:
-        ip = memoria[dirección]
+    if dirección <= 65533 and dirección >= 1025:
+
+        ip = hex(int(concatenar_hex(memoria[dirección],memoria[dirección+1]),16))
         xp = hex(dirección)
 
-        return xp
+        vector_auxiliar = [""] * 2
+        vector_auxiliar[0] = xp
+        vector_auxiliar[1] = ip
+        
+        return vector_auxiliar
     else:
         print(" /!\ Error en la ejecución de A2: Dirección inválida /!\ ")
 
@@ -116,11 +121,11 @@ def op_A3(parámetros, memoria):
     else:
         print(" /!\ Error en la ejecución de A3: Dirección inválida /!\ ")
 
-def op_A4(parámetros, memoria):
-	dirección_origen = concatenar_hex(parámetros[1], parámetros[2])
-	origen_decimal = int(dirección_origen, 16)
-	if dirección_origen >=1025 and dirección_origen <= 65534:
-		contenido = memoria[origen_decimal]
+def op_A4(parámetros, memoria,xp):
+	dirección_origen = int(concatenar_hex(parámetros[1], parámetros[2]),16)
+
+	if dirección_origen >= 1025 and dirección_origen <= 65534:
+		contenido = memoria[dirección_origen]
 		dirección_destino = int(xp, 16)
 		memoria[dirección_destino] = contenido
 		xp = hex(dirección_destino)
@@ -128,11 +133,10 @@ def op_A4(parámetros, memoria):
 	else:
             print(" /!\ Error en la ejecución de A4: Dirección inválida /!\ ")
 
-
 def op_A5(parámetros,memoria,xp):
 	dirección_destino = int(concatenar_hex(parámetros[1], parámetros[2]), 16)
 
-	if dirección_destino >=1025 and dirección_destino <= 65534:
+	if dirección_destino >= 1025 and dirección_destino <= 65534:
 		dirección_origen = int(xp, 16)
 		contenido = memoria[dirección_origen]
 		memoria[dirección_destino] = contenido
@@ -141,13 +145,13 @@ def op_A5(parámetros,memoria,xp):
 	else: 
          print(" /!\ Error en la ejecución de A5: Dirección inválida /!\ ")
 
-def op_A6(parámetros, memoria):
+def op_A6(parámetros, memoria,xp):
     dirección_destino = int(concatenar_hex(parámetros[1], parámetros[2]), 16)
-    dirección_destino_siguiente = int(hex(destino_decimal + 1), 16)
-    destino_decimal = int(dirección_destino, 16)
+    dirección_destino_siguiente = dirección_destino + 1
+
     if dirección_destino >=1025 and dirección_destino <= 65533:
         x = xp[2:4]
-        p = xp[4:]
+        p = xp[4:len(xp)]
         memoria[dirección_destino] = x
         memoria[dirección_destino_siguiente] = p
         xp = hex(dirección_destino_siguiente)
@@ -156,17 +160,18 @@ def op_A6(parámetros, memoria):
         print(" /!\ Error en la ejecución de A6: Dirección inválida /!\ ")
 
 def op_A7(parámetros, memoria):
-	dirección_origen = int(concatenar_hex(parámetros[1], parámetros[2]), 16)
-	dirección_origen_siguiente = dirección_origen + 1
-	if dirección_origen >=1025 and dirección_origen <= 65533:
-		contenido = memoria[dirección_origen] + memoria[dirección_origen_siguiente][2:]
-		xp = contenido
-		return xp
-	else:
+    dirección_origen = int(concatenar_hex(parámetros[1], parámetros[2]), 16) 
+    dirección_origen_siguiente = dirección_origen + 1
+        
+    if dirección_origen >= 1025 and dirección_origen <= 65533:
+        contenido = memoria[dirección_origen] + memoria[dirección_origen_siguiente][2:]
+        xp = contenido
+        return xp
+    else:
             print(" /!\ Error en la ejecución de A7: Dirección inválida /!\ ")
 
 #OPERACIONES DE SALTO
-def op_B0(parámetros, memoria):
+def op_B0(parámetros, memoria,xp,ip):
     #El primer elemento del vector es el valor del registro XP, el segundo es el valor de IP
     vector_auxiliar = [""] * 2
 
@@ -180,17 +185,20 @@ def op_B0(parámetros, memoria):
 
         if memoria[dirección_verificación] == hex(0x0):
             ip = hex(dirección_salto)
-            xp = hex(dirección_salto)
+            xp = hex(dirección_verificación)
 
             vector_auxiliar[0] = xp
             vector_auxiliar[1] = ip
-
             return vector_auxiliar
-
+        
+        else:
+            xp = hex(dirección_verificación) #Actualizamos xp porque se chequeó dirección_verificación
+            vector_auxiliar[0] = xp
+            vector_auxiliar[1] = ip
+            return vector_auxiliar
+            
     else:
         print(" /!\ Error en la ejecución de B0: Dirección inválida /!\ ")
-
-
 
 def op_B1(parámetros,ip):
     dirección_salto = concatenar_hex(parámetros[1], parámetros[2])
@@ -221,7 +229,6 @@ def op_C0(parámetros, memoria):
    else:
       print(" /!\ Error en la ejecución de C0: Dirección inválida /!\ ")
 
-
 def op_C1(parámetros, memoria):
 
    dirOrigen = int(concatenar_hex(parámetros[1], parámetros[2]),16)
@@ -249,7 +256,6 @@ def op_C2(parámetros, memoria):
       return xp
    else:
        print(" /!\ Error en la ejecución de C2: Dirección inválida /!\ ")
-
 
 def op_C3(parámetros, memoria):
 
@@ -283,7 +289,9 @@ def op_D0(parámetros, memoria):
             resultado = hex(resultado)
             resultado = "0x"+resultado[len(resultado)-2:len(resultado)]
 
-        memoria[dirección_destino] = hex(resultado)
+        resultado = str(resultado)
+
+        memoria[dirección_destino] = hex(int(resultado,16))
         xp = hex(dirección_destino)
         
         return xp
@@ -297,16 +305,19 @@ def op_D1(parámetros, memoria):
     dirección_destino = int(dirección_destino,16)
 
     if (dirección_origen <= 65534 and dirección_origen >= 1025) and (dirección_destino <= 65534 and dirección_destino >= 1025):
-        resultado = int(memoria[dirección_destino],16) - int(memoria[dirección_origen],16)
+        resultado = int(memoria[dirección_origen],16) - int(memoria[dirección_destino],16)
+        resultado = hex(abs(resultado))
 
         #Tomamos el bit menos significativo
-        if resultado > 255 or resultado < 0:
+        if int(resultado,16) > 255 or int(resultado,16) < 0:
             resultado = hex(resultado)
             resultado = "0x"+resultado[len(resultado)-2:len(resultado)]
 
-        memoria[dirección_destino] = hex(resultado)
+
+        memoria[dirección_destino] = hex(int(resultado,16))
         xp = hex(dirección_destino)
-        
+
+        return xp
     else:
         print(" /!\ Error en la ejecución de D1: Dirección inválida /!\ ")
 
@@ -318,9 +329,11 @@ def op_D2(parámetros, memoria):
 
     if (dirección_origen <= 65534 and dirección_origen >= 1025) and (dirección_destino <= 65534 and dirección_destino >= 1025):
         resultado = int(memoria[dirección_destino],16) % int(memoria[dirección_origen],16)
-        
+
+        #MOD nunca será mayor a 0xff, por lo que no hace falta verificar
         memoria[dirección_destino] = hex(resultado)
         xp = hex(dirección_destino)
+
         return xp
     else:
         print(" /!\ Error en la ejecución de D2: Dirección inválida /!\ ") 
@@ -367,7 +380,7 @@ matriz[3][1] = "2"
 matriz[4][0] = "0xa2"
 matriz[4][1] = "2"
 matriz[5][0] = "0xa3"
-matriz[5][1] = "4"      #38 EN TOTAL
+matriz[5][1] = "4"      
 matriz[6][0] = "0xa4"
 matriz[6][1] = "2"
 matriz[7][0] = "0xa5"
@@ -481,24 +494,30 @@ while parámetros[0] != "0xf1" and error == False:
     elif parámetros[0] == "0xa1":
         xp = op_A1(parámetros, memoria,ip)
     elif parámetros[0] == "0xa2":
-        xp = op_A2(parámetros, memoria)
+        vector_auxiliar = [""] * 2
+        vector_auxiliar = op_A2(parámetros,memoria,ip)
+        
+        xp = vector_auxiliar[0]
+        ip = vector_auxiliar[1]
+
     elif parámetros[0] == "0xa3":
         xp = op_A3(parámetros, memoria)
     elif parámetros[0] == "0xa4":
-        xp = op_A4(parámetros, memoria) 
+        xp = op_A4(parámetros, memoria,xp) 
     elif parámetros[0] == "0xa5":
         xp = op_A5(parámetros, memoria,xp)
     elif parámetros[0] == "0xa6":
-        xp = op_A6(parámetros, memoria)
+        xp = op_A6(parámetros, memoria,xp)
     elif parámetros[0] == "0xa7":
         xp = op_A7(parámetros, memoria) 
     
     #Operación JMP
     elif parámetros[0] == "0xb0":
         vector_auxiliar = [""] * 2
-        vector_auxiliar = op_B0(parámetros,memoria)
-        xp = hex(vector_auxiliar[0])
-        ip = hex(vector_auxiliar[1])
+        vector_auxiliar = op_B0(parámetros,memoria,xp,ip)
+        
+        xp = vector_auxiliar[0]
+        ip = vector_auxiliar[1]
 
     elif parámetros[0] == "0xb1":
         ip = op_B1(parámetros,ip)

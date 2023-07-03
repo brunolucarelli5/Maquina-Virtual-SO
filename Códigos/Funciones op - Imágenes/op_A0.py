@@ -6,4 +6,4 @@ def op_A0(parámetros, memoria):
         xp = hex(dirección)
         return xp
     else:
-        print(" /!\ Error en la ejecución de A0: Dirección inválida /!\ ")   
+        print(" /!\ Error en la ejecución de A0: Dirección inválida /!\ ")
