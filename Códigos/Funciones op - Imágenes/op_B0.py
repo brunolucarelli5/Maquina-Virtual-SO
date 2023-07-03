@@ -26,3 +26,8 @@ def op_B0(parámetros, memoria,xp,ip):
             
     else:
         print(" /!\ Error en la ejecución de B0: Dirección inválida /!\ ")
+
+    #Devolvemos los registro xp e ip tal cual
+    vector_auxiliar[0] = xp
+    vector_auxiliar[1] = ip
+    return vector_auxiliar
