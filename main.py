@@ -242,7 +242,7 @@ def op_B0(parámetros, memoria,ip):
             
     else:
         error = "1"
-        print(" /!\ Error en la ejecución de A6: Dirección inválida /!\ ")
+        print(" /!\ Error en la ejecución de B0: Dirección inválida /!\ ")
         vector_auxiliar[0] = error
         vector_auxiliar[1] = ip
 
