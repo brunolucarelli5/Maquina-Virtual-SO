@@ -137,9 +137,8 @@ def op_A3(parámetros, memoria):
         print(" /!\ Error en la ejecución de A3: Dirección inválida /!\ ")
         return error
 
-def op_A4(parámetros, memoria,xp):
+def op_A4(parámetros, memoria):
     error = "0"
-    vector_auxiliar = [""] * 2
     dirección_origen = int(concatenar_hex(parámetros[1], parámetros[2]),16)
     
     if dirección_origen >= 1025 and dirección_origen <= 65534:
@@ -147,66 +146,45 @@ def op_A4(parámetros, memoria,xp):
         dirección_destino = int(xp, 16)
 
         memoria[dirección_destino] = contenido
-        xp = hex(dirección_destino)
 
-        vector_auxiliar[0] = error
-        vector_auxiliar[1] = xp
-
-        return vector_auxiliar
+        return error
 
     else:
         error = "1"
         print(" /!\ Error en la ejecución de A4: Dirección inválida /!\ ")
-        vector_auxiliar[0] = error
-        vector_auxiliar[1] = xp
+        return error
 
-        return vector_auxiliar
-
-def op_A5(parámetros, memoria,xp):
+def op_A5(parámetros, memoria):
     error = "0"
-    vector_auxiliar = [""] * 2
     dirección_destino = int(concatenar_hex(parámetros[1], parámetros[2]), 16)
 
     if dirección_destino >= 1025 and dirección_destino <= 65534:
         dirección_origen = int(xp, 16)
         contenido = memoria[dirección_origen]
         memoria[dirección_destino] = contenido
-        xp = hex(dirección_destino)
-        vector_auxiliar[0] = error
-        vector_auxiliar[1] = xp
 
-        return vector_auxiliar
+        return error
     else: 
         error = "1"
         print(" /!\ Error en la ejecución de A5: Dirección inválida /!\ ")
-        vector_auxiliar[0] = error
-        vector_auxiliar[1] = xp
+        return error
 
-        return vector_auxiliar
-
-def op_A6(parámetros, memoria,xp):
+def op_A6(parámetros, memoria):
     error = "0"
-    vector_auxiliar = [""] * 2
     dirección_destino = int(concatenar_hex(parámetros[1], parámetros[2]), 16)
     dirección_destino_siguiente = dirección_destino + 1
 
     if dirección_destino >=1025 and dirección_destino <= 65533:
-        x = xp[2:4]
-        p = xp[4:len(xp)]
+        x = hex(int(xp[2:4],16))
+        p = hex(int(xp[4:len(xp)],16))
         memoria[dirección_destino] = x
         memoria[dirección_destino_siguiente] = p
-        xp = hex(dirección_destino_siguiente)
-        vector_auxiliar[0] = error
-        vector_auxiliar[1] = xp
 
-        return vector_auxiliar
+        return error
     else: 
         error = "1"
         print(" /!\ Error en la ejecución de A6: Dirección inválida /!\ ")
-        vector_auxiliar[0] = error
-        vector_auxiliar[1] = xp
-
-        return vector_auxiliar
+        return error
 
 def op_A7(parámetros, memoria,xp):
     error = "0"
@@ -581,25 +559,11 @@ while parámetros[0] != "0xf1" and error == "0":
     elif parámetros[0] == "0xa3":
         error = op_A3(parámetros, memoria)
     elif parámetros[0] == "0xa4":
-        vector_auxiliar = [""] * 2
-        vector_auxiliar = op_A4(parámetros,memoria,xp)
-        
-        error = vector_auxiliar[0]
-        xp = vector_auxiliar[1]
-         
+        error = op_A4(parámetros, memoria)
     elif parámetros[0] == "0xa5":
-        vector_auxiliar = [""] * 2
-        vector_auxiliar = op_A5(parámetros,memoria,xp)
-        
-        error = vector_auxiliar[0]
-        xp = vector_auxiliar[1]
-        
+        error = op_A5(parámetros, memoria)
     elif parámetros[0] == "0xa6":
-        vector_auxiliar = [""] * 2
-        vector_auxiliar = op_A6(parámetros,memoria,xp)
-        
-        error = vector_auxiliar[0]
-        xp = vector_auxiliar[1]
+        error = op_A6(parámetros, memoria)
         
     elif parámetros[0] == "0xa7":
         vector_auxiliar = [""] * 2
