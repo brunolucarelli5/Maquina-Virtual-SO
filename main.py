@@ -2,6 +2,12 @@
 MÁQUINA VIRTUAL - SO 2023
 Integrantes: Lucarelli, Monti, Mosconi, Terreno
 Refinamientos: Planteados en https://docs.google.com/document/d/1d9OCoB_hRpRdz8k71dXcPaGg0XyF2U0yhzvx864gpnc/edit?usp=sharing
+
+1. Ignacio
+2. Valentino
+3. Bruno
+4. Agustín
+DELEGADOS: 1 y 4
 """
 
 """
@@ -53,6 +59,7 @@ def concatenar_hex(más_significativo, menos_significativo):
     return concatenado
 
 def op_F0(memoria,xp,ip):
+    error = "0"
     # Si no existe, se crea el archivo
     archivo = open("memory_dump.txt", "w+")
 
@@ -68,7 +75,7 @@ def op_F0(memoria,xp,ip):
 
     archivo.close()
 
-    return hex(int(xp,16))
+    return error
 
 
 #Operaciones de movimiento
@@ -549,7 +556,7 @@ while parámetros[0] != "0xf1" and error == "0":
     #print(ip,int(ip,16),parámetros) #permite ver la evolución del registro ip y el vector parámetros
 
     if parámetros[0] == "0xf0":
-        op_F0(memoria,xp,ip) #Generamos el archivo memory_dump, que nos mostrará cómo quedó la memoria después del programa
+        error = op_F0(memoria,xp,ip) #Generamos el archivo memory_dump, que nos mostrará cómo quedó la memoria después del programa
     
     #Operaciones de movimiento
     elif parámetros[0] == "0xa0":
